@@ -1,0 +1,23 @@
+import urllib.request, urllib.parse
+import json
+
+api_key = "4d7d1421188a47fe83d1a37f8f80e3e7"
+base_url = "https://api.geoapify.com/v1/geocode/search"
+params = {
+    'text': '38 Upper Montagu Street, Westminster, W1H 1LJ, United Kingdom',
+    'apiKey': api_key
+}
+
+url = base_url + '?' + urllib.parse.urlencode(params)
+response = urllib.request.urlopen(url)
+data = response.read().decode()
+json_data = json.loads(data)
+if 'features' in json_data and len(['features']) > 0:
+    longitude = json_data['features'][0]['geometry']['coordinates'][0]
+    latitude = json_data['features'][0]['geometry']['coordinates'][1]
+
+    print(f'LONGITUDE: {longitude}')
+    print(f'LATITUDE: {latitude}')
+else:
+    print('no features found!')
+    
